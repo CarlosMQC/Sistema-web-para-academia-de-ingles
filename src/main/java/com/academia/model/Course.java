@@ -5,20 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Course {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     private Integer idCourse;
 
     @Column(nullable = false, length = 70)
@@ -29,4 +21,42 @@ public class Course {
 
     @Column(nullable = false)
     private boolean status;
+
+    // Constructor vacío requerido por JPA
+    public Course() {
+    }
+
+    // --- GETTERS Y SETTERS MANUALES ---
+
+    public Integer getIdCourse() {
+        return idCourse;
+    }
+
+    public void setIdCourse(Integer idCourse) {
+        this.idCourse = idCourse;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }

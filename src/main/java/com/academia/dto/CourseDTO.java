@@ -4,8 +4,8 @@ public class CourseDTO {
 
     private Integer idCourse;
     private String name;
-    private String acronym;
-    private Boolean enabled;
+    private String description;
+    private boolean status;
 
     public Integer getIdCourse() {
         return idCourse;
@@ -23,19 +23,19 @@ public class CourseDTO {
         this.name = name;
     }
 
-    public String getAcronym() {
-        return acronym;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAcronym(String acronym) {
-        this.acronym = acronym;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
