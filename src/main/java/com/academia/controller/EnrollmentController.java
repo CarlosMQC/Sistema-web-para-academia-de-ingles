@@ -1,49 +1,59 @@
 package com.academia.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
+import com.academia.dto.EnrollmentDTO;
+import com.academia.exception.ModelNotFoundException;
+import com.academia.model.Enrollment;
+import com.academia.service.IEnrollmentService;
+import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.academia.model.Enrollment;
-import com.academia.service.IEnrollmentService;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import lombok.RequiredArgsConstructor;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/enrollments")
-@RequiredArgsConstructor
 public class EnrollmentController {
+
     private final IEnrollmentService service;
-    
-    @GetMapping 
-    public List<Enrollment> findAll() throws Exception{
-        return service.findAll();
+    private final ModelMapper mapper;
+
+    public EnrollmentController(IEnrollmentService service, ModelMapper mapper) {
+        this.service = service;
+        this.mapper = mapper;
     }
-    
-    @GetMapping("/{id}") 
-    public Enrollment findById(@PathVariable("id") Integer id) throws Exception{
-        return service.findById(id);
+
+    @GetMapping
+    public ResponseEntity<List<EnrollmentDTO>> findAll() throws Exception {
+        List<EnrollmentDTO> list = service.findAll().stream()
+                .map(e -> mapper.map(e, EnrollmentDTO.class))
+                .collect(Collectors.toList());
+        
+        return ResponseEntity.ok(list);
     }
-    
-    @PostMapping 
-    public Enrollment save(@RequestBody Enrollment enrollment) throws Exception{
-        return service.save(enrollment);
-    }
-    
-    @PutMapping("/{id}") 
-    public Enrollment update(@RequestBody Enrollment enrollment, @PathVariable("id") Integer id) throws Exception{
-        return service.update(enrollment, id);
-    }
-    
-    @DeleteMapping("/{id}") 
-    public void delete(@PathVariable("id") Integer id) throws Exception{
-        service.delete(id);
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EntityModel<EnrollmentDTO>> findById(@PathVariable("id") Integer id) throws Exception {
+        Enrollment obj = service.findById(id);
+        
+        if (obj == null) {
+            throw new ModelNotFoundException("ID NO ENCONTRADO: " + id);
+        }
+        
+        EnrollmentDTO dto = mapper.map(obj, EnrollmentDTO.class);
+        
+        EntityModel<EnrollmentDTO> resource = EntityModel.of(dto);
+        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).findById(id));
+        resource.add(link.withSelfRel());
+        
+        return ResponseEntity.ok(resource);
     }
 }

@@ -1,0 +1,55 @@
+@startuml
+
+package "com.academia.model" {
+  class Student {
+    - Integer idStudent
+    - String firstName
+    - String lastName
+    - String email
+    - String documentNumber
+  }
+  class Course {
+    - Integer idCourse
+    - String name
+    - String acronym
+    - Boolean enabled
+  }
+  class Enrollment {
+    - Integer idEnrollment
+    - LocalDateTime datetime
+    - Boolean enabled
+  }
+}
+
+package "com.academia.dto" {
+  class StudentDTO
+  class CourseDTO
+  class EnrollmentDTO
+}
+
+package "com.academia.controller" {
+  class StudentController
+  class CourseController
+  class EnrollmentController
+}
+
+package "com.academia.service" {
+  interface ICRUD
+  interface IStudentService
+  abstract class CRUDImpl
+  class StudentService
+}
+
+package "com.academia.repository" {
+  interface IGenericRepo
+  interface IStudentRepository
+}
+
+Enrollment "1" --> "1" Student
+IStudentService --|> ICRUD
+StudentService ..|> IStudentService
+StudentService --|> CRUDImpl
+IStudentRepository --|> IGenericRepo
+StudentController --> IStudentService
+
+@enduml
