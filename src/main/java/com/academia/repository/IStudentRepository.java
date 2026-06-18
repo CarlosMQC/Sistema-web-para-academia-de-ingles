@@ -1,6 +1,6 @@
-package com.academia.repository;
+package com.academia.repo;
 
 import com.academia.model.Student;
 
-public interface IStudentRepository extends IGenericRepo<Student, Integer> {
+public interface IStudentRepo extends IGenericRepo<Student, Integer> {
 }

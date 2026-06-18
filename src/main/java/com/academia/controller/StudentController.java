@@ -3,20 +3,11 @@ package com.academia.backend.controller;
 import com.academia.dto.StudentDTO;
 import com.academia.model.Student;
 import com.academia.service.IStudentService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.modelmapper.ModelMapper;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +38,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<StudentDTO>> findById(@PathVariable("id") Integer id) throws Exception {
+    public ResponseEntity<StudentDTO> findById(@PathVariable("id") Integer id) throws Exception {
         Student obj = service.findById(id);
         
         if (obj == null) {
@@ -56,11 +47,13 @@ public class StudentController {
         
         StudentDTO dto = mapper.map(obj, StudentDTO.class);
         
-        EntityModel<StudentDTO> resource = EntityModel.of(dto);
-        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).findById(id));
-        resource.add(link.withSelfRel());
+        Link selfLink = linkTo(methodOn(StudentController.class).findById(id)).withSelfRel();
+        Link allLink = linkTo(methodOn(StudentController.class).findAll()).withRel("all_students");
         
-        return ResponseEntity.ok(resource);
+        dto.add(selfLink);
+        dto.add(allLink);
+        
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
