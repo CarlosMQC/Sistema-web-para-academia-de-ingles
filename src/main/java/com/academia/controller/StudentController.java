@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/students")
+@CrossOrigin(origins = "http://localhost:4200")
 public class StudentController {
 
     private final IStudentService service;

@@ -15,7 +15,7 @@ public class Student {
     @Column(nullable = false, length = 50)
     private String lastName;
 
-    @Column(nullable = false, length = 8, unique = true)
+    @Column(name = "document_number", nullable = false, length = 8, unique = true)
     private String dni;
 
     @Column(nullable = false)

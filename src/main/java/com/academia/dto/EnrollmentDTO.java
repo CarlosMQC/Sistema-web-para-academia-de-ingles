@@ -1,13 +1,13 @@
 package com.academia.dto;
 
-import java.time.LocalDateTime;
+import org.springframework.hateoas.RepresentationModel;
 
-public class EnrollmentDTO {
+public class EnrollmentDTO extends RepresentationModel<EnrollmentDTO> {
 
     private Integer idEnrollment;
-    private LocalDateTime datetime;
     private StudentDTO student;
-    private Boolean enabled;
+    private CourseDTO course;
+    private boolean status;
 
     public Integer getIdEnrollment() {
         return idEnrollment;
@@ -15,14 +15,6 @@ public class EnrollmentDTO {
 
     public void setIdEnrollment(Integer idEnrollment) {
         this.idEnrollment = idEnrollment;
-    }
-
-    public LocalDateTime getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(LocalDateTime datetime) {
-        this.datetime = datetime;
     }
 
     public StudentDTO getStudent() {
@@ -33,11 +25,19 @@ public class EnrollmentDTO {
         this.student = student;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public CourseDTO getCourse() {
+        return course;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setCourse(CourseDTO course) {
+        this.course = course;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
