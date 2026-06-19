@@ -18,6 +18,9 @@ public class Student {
     @Column(name = "document_number", nullable = false, length = 8, unique = true)
     private String dni;
 
+    @Column(nullable = false, length = 150)
+    private String email;
+
     @Column(nullable = false)
     private boolean status;
 
@@ -35,6 +38,9 @@ public class Student {
 
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     public boolean isStatus() { return status; }
     public void setStatus(boolean status) { this.status = status; }
