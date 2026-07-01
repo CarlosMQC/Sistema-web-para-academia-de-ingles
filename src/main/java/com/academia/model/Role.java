@@ -1,4 +1,4 @@
-package com.xplorelatam.model;
+package com.academia.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,13 +14,27 @@ import lombok.NoArgsConstructor;
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Role {
-	@Id
-	@EqualsAndHashCode.Include
-	private Integer idRole;
-	
-	@Column(nullable = false, length = 70)
-	private String name;
-	
-	@Column(nullable=true, length = 150)
-	private String description;
+    
+    @Id
+    @EqualsAndHashCode.Include
+    private Integer idRole;
+    
+    @Column(nullable = false, length = 70)
+    private String name;
+    
+    @Column(nullable = true, length = 150)
+    private String description;
+
+    public Role() {
+    }
+
+    public Role(Integer idRole, String name, String description) {
+        this.idRole = idRole;
+        this.name = name;
+        this.description = description;
+    }
+
+    public String getName() {
+        return this.name;
+    }
 }
